@@ -1,5 +1,7 @@
 var http = require('http');
 var url = require('url');
+var favicon = require('serve-favicon');
+var _favicon = favicon(__dirname + '/favicon.ico');
 
 function start(route) {
   function onRequest(request, response) {
@@ -8,9 +10,13 @@ function start(route) {
 
     route(pathname);
 
-    response.writeHead(200, {"Content-Type": "text/plain"});
-    response.write("Hello World");
-    response.end();
+	_favicon(request,response,function(){
+		response.writeHead(200, {"Content-Type": "text/plain"});
+		response.write("Hello World");
+		response.end();		
+	});
+	
+    
   }
 
   http.createServer(onRequest).listen(8008);
